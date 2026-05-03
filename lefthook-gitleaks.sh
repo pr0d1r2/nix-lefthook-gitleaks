@@ -23,4 +23,9 @@ if [ "$count" -eq 0 ]; then
     exit 0
 fi
 
-exec gitleaks dir --no-banner "$tmpdir"
+config_args=()
+if [ -f ".gitleaks.toml" ]; then
+    config_args=(--config "$(realpath .gitleaks.toml)")
+fi
+
+exec gitleaks dir --no-banner "${config_args[@]}" "$tmpdir"
